@@ -26,8 +26,22 @@ const generateItemElement = function (item) {
         <button class='shopping-item-delete js-item-delete'>
           <span class='button-label'>delete</span>
         </button>
+        <button class='shopping-item-title js-item-title'>
+          <span class='button-label'>change</span>
+        </button>
       </div>
     </li>`;
+};
+
+const generateChangeTitleElem = function (item) {
+  return `
+  <li class='js-item-element' data-item-id='${item.id}'>
+    <label for="change-item-title">Change Item Title</label>
+    <input type="text" name="change-item-title" class="js-change-title" placeholder="Type here..." />
+    <button class="js-submit-title">
+      <span>Change Title</span>
+    </button>
+  </li>`
 };
 
 const generateShoppingItemsString = function (shoppingList) {
@@ -60,6 +74,14 @@ const render = function () {
 
   // insert that HTML into the DOM
   $('.js-shopping-list').html(shoppingListItemsString);
+};
+
+const changeItemTitle = function () {
+  // when a user clicks, change the title to a form + submit button
+  // allow user to type new answer
+  // when user submits answer, it changes the title of the item
+  // render the page with the new title
+  
 };
 
 const addItemToShoppingList = function (itemName) {
@@ -145,6 +167,19 @@ const handleToggleFilterClick = function () {
   });
 };
 
+const handleLoadTitleChange = function () {
+  $('.js-shopping-list').on('click', '.js-item-title', function() {
+    let items = store.items;
+    $(this.closest('li')).html(generateChangeTitleElem(items))
+  });
+};
+
+const handleChangeTitle = function () {
+  $('.js-shopping-list').on('click', '.js-submit-title', function () {
+    let selectedId = $((this).closest('li')).attr('data-item-id');
+  });
+};
+
 /**
  * This function will be our callback when the
  * page loads. It is responsible for initially 
@@ -160,6 +195,8 @@ const handleShoppingList = function () {
   handleItemCheckClicked();
   handleDeleteItemClicked();
   handleToggleFilterClick();
+  handleLoadTitleChange();
+  handleChangeTitle();
 };
 
 // when the page loads, call `handleShoppingList`
